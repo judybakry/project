@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thamer International School — Saudi Vision 2030 vs China 2030</title>
+
+  <style>
+    :root{
+      /* Thamer-ish palette (from logo feel) */
+      --tis-blue:#114681;
+      --tis-gold:#EDAC23;
+      --tis-green:#2C6042;
+
+      --bg1:#050817;
+      --bg2:#07122d;
+      --text:#EAF0FF;
+      --muted: rgba(234,240,255,.72);
+      --stroke: rgba(255,255,255,.14);
+      --card: rgba(255,255,255,.06);
+      --shadow: 0 18px 70px rgba(0,0,0,.45);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ margin:0; padding:0; }
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 650px at 20% 15%, rgba(17,70,129,.35), transparent 60%),
+        radial-gradient(1100px 650px at 80% 35%, rgba(44,96,66,.22), transparent 60%),
+        radial-gradient(900px 500px at 55% 70%, rgba(237,172,35,.16), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* subtle animated background */
+    .fx{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      opacity:.55;
+      z-index:0;
+    }
+    .fx::before, .fx::after{
+      content:"";
+      position:absolute; inset:-20%;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(237,172,35,.18), transparent 50%),
+        radial-gradient(circle at 70% 35%, rgba(17,70,129,.22), transparent 55%),
+        radial-gradient(circle at 40% 75%, rgba(124,255,214,.10), transparent 55%);
+      animation: drift 14s ease-in-out infinite;
+    }
+    .fx::after{ animation-duration: 18s; transform: rotate(10deg); opacity:.7; }
+    @keyframes drift{
+      0%,100%{ transform: translate3d(0,0,0) scale(1); }
+      50%{ transform: translate3d(-25px, 12px, 0) scale(1.02); }
+    }
+
+    /* ===== Topbar ===== */
+    .topbar{
+      position: sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(5,8,23,.82), rgba(5,8,23,.22));
+      border-bottom: 1px solid var(--stroke);
+    }
+    .topbar-inner{
+      max-width:1200px;
+      margin:0 auto;
+      padding: 12px 16px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width:280px;
+    }
+    .logo-wrap{ width:110px; height:40px; display:flex; align-items:center; }
+    .logo-wrap img{
+      max-width:110px;
+      max-height:40px;
+      object-fit:contain;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+    }
+    .title{ display:flex; flex-direction:column; gap:2px; }
+    .title h1{ margin:0; font-size:14px; line-height:1.2; letter-spacing:.2px; }
+    .title p{ margin:0; color:var(--muted); font-size:12px; line-height:1.3; }
+
+    .right-actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    .btn{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.16);
+      background: linear-gradient(135deg, rgba(17,70,129,.35), rgba(44,96,66,.22));
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      transition: transform .15s ease, filter .15s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    }
+    .btn:hover{ transform: translateY(-1px); filter:brightness(1.06); }
+    .btn:active{ transform: translateY(0) scale(.99); }
+
+    .pill{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+      padding: 8px 10px;
+      border-radius: 999px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: var(--tis-gold);
+      box-shadow: 0 12px 30px rgba(237,172,35,.22);
+    }
+
+    .flags{ display:flex; gap:8px; align-items:center; }
+    .flag{
+      width:36px; height:24px;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,.18);
+      overflow:hidden;
+      box-shadow: 0 12px 25px rgba(0,0,0,.18);
+      background: rgba(255,255,255,.06);
+    }
+    .flag svg{ width:100%; height:100%; display:block; }
+
+    /* ===== Layout ===== */
+    .wrap{
+      position:relative;
+      z-index:1;
+      max-width:1200px;
+      margin: 0 auto;
+      padding: 24px 16px 70px;
+      display:grid;
+      grid-template-columns: 390px 1fr;
+      gap: 26px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
+
+    /* ===== Rail panel ===== */
+    .rail-col{
+      position: sticky;
+      top: 86px;
+      height: calc(100vh - 116px);
+      min-height: 650px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .rail-header{
+      padding: 16px;
+      border-bottom:1px solid rgba(255,255,255,.14);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+    .rail-header h2{ margin:0; font-size:13px; letter-spacing:.2px; }
+    .rail-header p{ margin:6px 0 0; color: var(--muted); font-size:12px; line-height:1.5; }
+
+    .rail-stage{
+      position:relative;
+      height: calc(100% - 72px);
+      padding: 16px;
+      overflow:hidden;
+    }
+
+    /* Rail line + ties */
+    .rail-line{
+      position:absolute;
+      left: 74px;
+      top: 20px;
+      bottom: 20px;
+      width: 9px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(237,172,35,.22), rgba(17,70,129,.78), rgba(44,96,66,.62));
+      filter: drop-shadow(0 10px 22px rgba(17,70,129,.22));
+    }
+    .rail-ties{
+      position:absolute;
+      left: 54px;
+      right: 16px;
+      top: 20px;
+      bottom: 20px;
+      background: repeating-linear-gradient(to bottom, rgba(255,255,255,.12) 0 2px, transparent 2px 26px);
+      opacity:.28;
+      pointer-events:none;
+      animation: tiesFlow 0.95s linear infinite;
+    }
+    @keyframes tiesFlow{
+      from{ background-position: 0 0; }
+      to{ background-position: 0 28px; }
+    }
+
+    /* Stations (generated by JS) */
+    .rail-station{
+      position:absolute;
+      left: 74px;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.22);
+      background: radial-gradient(circle at 30% 30%, #fff, var(--tis-gold));
+      box-shadow: 0 16px 46px rgba(237,172,35,.18);
+      cursor:pointer;
+      pointer-events:auto;
+    }
+    .rail-station.active{
+      background: radial-gradient(circle at 30% 30%, #fff, #7cffd6);
+      box-shadow: 0 18px 52px rgba(124,255,214,.18);
+    }
+    .rail-label{
+      position:absolute;
+      left: 108px;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: rgba(234,240,255,.78);
+      white-space:nowrap;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(10,16,38,.55);
+      padding: 7px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      max-width: 250px;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      cursor:pointer;
+      pointer-events:auto;
+    }
+    .rail-label strong{ color: var(--text); font-weight: 800; }
+
+    /* ===== VERTICAL TRAIN (front up) ===== */
+    .train-wrap{
+      position:absolute;
+      left: 74px;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      height: 220px;
+      pointer-events:none;
+      transition: top .85s cubic-bezier(.18,.9,.18,1);
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,.35));
+      z-index:3;
+    }
+
+    /* The train model is horizontal internally then rotated 90deg => vertical */
+    .train{
+      position:absolute;
+      inset:0;
+      width: 220px;
+      height: 62px;
+
+      left:50%;
+      top:50%;
+      translate:-50% -50%;
+
+      transform:
+        rotate(90deg)       /* makes it vertical */
+        rotateX(12deg);     /* slight 3D tilt */
+      transform-origin:center;
+      transform-style: preserve-3d;
+
+      animation: bob 1.6s ease-in-out infinite;
+    }
+    @keyframes bob{
+      0%,100%{ transform: rotate(90deg) rotateX(12deg) translateY(0px); }
+      50%{ transform: rotate(90deg) rotateX(12deg) translateY(-2px); }
+    }
+
+    .train .body{
+      position:absolute;
+      inset:0;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.20);
+      background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+      overflow:hidden;
+    }
+    .train .body:before{
+      content:"";
+      position:absolute; inset:-45% -15%;
+      background:
+        radial-gradient(circle at 25% 30%, rgba(17,70,129,.62), transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(44,96,66,.45), transparent 60%),
+        radial-gradient(circle at 35% 75%, rgba(237,172,35,.28), transparent 65%);
+      transform: rotate(10deg);
+      opacity:.9;
+    }
+
+    .train .depth{
+      position:absolute;
+      left: 10px; right: 26px;
+      bottom: -10px;
+      height: 18px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.28));
+      transform: translateZ(-18px);
+      opacity:.9;
+    }
+
+    .train .stripe{
+      position:absolute;
+      left: 14px; right: 14px;
+      top: 12px;
+      height: 9px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(237,172,35,.95), rgba(237,172,35,.55), transparent);
+      opacity:.95;
+    }
+
+    .train .windows{
+      position:absolute;
+      left: 20px; right: 56px;
+      top: 28px;
+      height: 13px;
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 7px;
+    }
+    .train .windows span{
+      border-radius: 7px;
+      border: 1px solid rgba(255,255,255,.20);
+      background: linear-gradient(180deg, rgba(234,240,255,.26), rgba(234,240,255,.06));
+      box-shadow: inset 0 -6px 12px rgba(0,0,0,.25);
+    }
+
+    /* Nose is on the right in model => after rotate(90deg) it becomes TOP */
+    .train .nose{
+      position:absolute;
+      right:-16px;
+      top: 9px;
+      width: 38px;
+      height: 40px;
+      border-radius: 18px 20px 20px 18px;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+      transform: skewX(-14deg);
+    }
+    .train .light{
+      position:absolute;
+      right:-13px;
+      top: 24px;
+      width: 10px;
+      height: 10px;
+      border-radius:50%;
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 0 18px rgba(255,255,255,.55), 0 0 38px rgba(237,172,35,.28);
+      animation: pulse 1.2s ease-in-out infinite;
+      transform: skewX(-14deg);
+    }
+    @keyframes pulse{ 0%,100%{opacity:.75} 50%{opacity:1} }
+
+    /* Wheels */
+    .train .wheel{
+      position:absolute;
+      bottom:-9px;
+      width: 16px;
+      height: 16px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.10));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: inset 0 -4px 10px rgba(0,0,0,.35);
+      animation: spin .85s linear infinite;
+    }
+    .train .wheel.w1{ left: 30px; }
+    .train .wheel.w2{ left: 70px; }
+    .train .wheel.w3{ left: 112px; }
+    .train .wheel.w4{ left: 154px; }
+    @keyframes spin{ to{ transform: rotate(360deg);} }
+
+    /* Smoke (appears when moving) */
+    .smoke{
+      position:absolute;
+      left: 18px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius:50%;
+      background: rgba(234,240,255,.22);
+      filter: blur(.5px);
+      opacity:0;
+      pointer-events:none;
+    }
+    .train.moving .wheel{ animation-duration: .33s; }
+    .train.moving .smoke{ animation: smoke 1.0s ease-out infinite; }
+    .train.moving .smoke.s2{ animation-delay: .2s; }
+    .train.moving .smoke.s3{ animation-delay: .4s; }
+    @keyframes smoke{
+      0%   { transform: translate(0,0) scale(.6); opacity:0; }
+      15%  { opacity:.55; }
+      100% { transform: translate(-28px,-28px) scale(1.7); opacity:0; }
+    }
+
+    /* ===== Cards ===== */
+    .cards{
+      display:flex;
+      flex-direction:column;
+      gap: 56px;
+      padding-bottom: 40px;
+    }
+    .hero{
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-60%;
+      background:
+        radial-gradient(circle at 25% 30%, rgba(17,70,129,.28), transparent 55%),
+        radial-gradient(circle at 70% 60%, rgba(44,96,66,.22), transparent 55%),
+        radial-gradient(circle at 40% 80%, rgba(237,172,35,.14), transparent 60%);
+      transform: rotate(10deg);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .hero h2{ margin:0 0 8px; font-size:28px; line-height:1.15; position:relative; }
+    .hero p{ margin:0; color: var(--muted); line-height:1.7; max-width: 74ch; font-size:14px; position:relative; }
+
+    .card{
+      border:1px solid rgba(255,255,255,.14);
+      background: var(--card);
+      border-radius: 26px;
+      box-shadow: 0 14px 60px rgba(0,0,0,.28);
+      overflow:hidden;
+      transition: transform .25s ease, box-shadow .25s ease, outline .25s ease;
+    }
+    .card.active{
+      outline: 2px solid rgba(237,172,35,.35);
+      box-shadow: 0 22px 90px rgba(237,172,35,.10), 0 14px 60px rgba(0,0,0,.30);
+      transform: translateY(-2px);
+    }
+    .card .inner{
+      padding: 18px;
+      display:grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    @media (max-width: 980px){
+      .card .inner{ grid-template-columns: 1fr; }
+      .rail-col{ position:relative; top:auto; height:auto; min-height:650px; }
+    }
+
+    .mini{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; align-items:center; }
+    .tag{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:6px 10px; border-radius:999px; font-size:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(234,240,255,.78);
+      white-space:nowrap;
+    }
+    .tag b{ color: var(--text); font-weight:800; }
+    .tag .tiny-dot{ width:8px;height:8px;border-radius:50%; background: var(--tis-gold); box-shadow: 0 12px 25px rgba(237,172,35,.18); }
+
+    .card h3{ margin:0 0 10px; font-size:14px; letter-spacing:.2px; }
+    .bullets{
+      margin:0; padding-left:18px;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.75;
+    }
+    .bullets li{ margin:6px 0; }
+
+    .visual{
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: 22px;
+      background: rgba(5,8,23,.35);
+      min-height: 220px;
+      display:flex; align-items:center; justify-content:center;
+      position:relative; overflow:hidden;
+      padding: 14px;
+    }
+    .visual:before{
+      content:"";
+      position:absolute; inset:-45%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(17,70,129,.32), transparent 55%),
+        radial-gradient(circle at 70% 65%, rgba(44,96,66,.22), transparent 55%),
+        radial-gradient(circle at 45% 80%, rgba(237,172,35,.14), transparent 60%);
+      transform: rotate(12deg);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .visual svg{ width: 92%; height:auto; position:relative; opacity:.98; }
+    .visual .img-ph{
+      width:100%;
+      height:100%;
+      min-height: 220px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      z-index:1;
+      overflow:hidden;
+    }
+
+    footer{
+      margin-top:26px;
+      color: rgba(234,240,255,.65);
+      font-size:12px;
+      padding:10px 2px 0;
+      border-top: 1px solid rgba(255,255,255,.14);
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono";
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      padding:2px 6px;
+      border-radius:8px;
+      margin:0 2px;
+      display:inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="fx"></div>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo-wrap">
+          <img src="logo-l.png" alt="Thamer International School Logo">
+        </div>
+        <div class="title">
+          <h1>Vision 2030 Comparison Project</h1>
+          <p>Saudi Vision 2030 vs China 2030 — Vertical 3D Train Journey</p>
+        </div>
+      </div>
+
+      <div class="right-actions">
+        <div class="flags" aria-label="Country Flags">
+          <!-- China -->
+          <div class="flag" title="China">
+            <svg viewBox="0 0 36 24" aria-hidden="true">
+              <rect width="36" height="24" fill="#DE2910"/>
+              <polygon points="7,4 8.2,7.4 11.8,7.4 8.9,9.5 10,12.9 7,10.9 4,12.9 5.1,9.5 2.2,7.4 5.8,7.4" fill="#FFDE00"/>
+            </svg>
+          </div>
+          <!-- Saudi (simplified) -->
+          <div  title="Saudi Arabia">
+            <!-- <svg viewBox="0 0 36 24" aria-hidden="true">
+              <rect width="36" height="24" fill="#006C35"/>
+              <rect x="5" y="6" width="26" height="6" rx="3" fill="rgba(255,255,255,.85)"/>
+              <rect x="8" y="16" width="20" height="2.2" rx="1.1" fill="rgba(255,255,255,.92)"/>
+            </svg> -->
+            <img src="./saudi.png"  style="width: 36px; height: 24px;"alt="">
+          </div>
+        </div>
+
+        <div class="pill"><span class="dot"></span><span id="stateText">Scroll to move the train</span></div>
+        <button class="btn" id="autoBtn">Auto Play</button>
+        <button class="btn" id="nextBtn">Next Stop</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="wrap">
+    <!-- LEFT: Rail + Train -->
+    <aside class="rail-col">
+      <div class="rail-header">
+        <div>
+          <h2>Journey Timeline</h2>
+          <p>The train stops at each comparison point (clean + visual, no noise).</p>
+        </div>
+      </div>
+
+      <div class="rail-stage" id="railStage">
+        <div class="rail-line"></div>
+        <div class="rail-ties"></div>
+
+        <div class="train-wrap" id="trainWrap" style="top:10%;">
+          <div class="train" id="train" aria-hidden="true">
+            <div class="body"></div>
+            <div class="depth"></div>
+            <div class="stripe"></div>
+            <div class="windows">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="nose"></div>
+            <div class="light"></div>
+            <div class="wheel w1"></div>
+            <div class="wheel w2"></div>
+            <div class="wheel w3"></div>
+            <div class="wheel w4"></div>
+            <div class="smoke"></div>
+            <div class="smoke s2"></div>
+            <div class="smoke s3"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT: Cards -->
+    <main class="cards" id="cards">
+      <div class="hero">
+        <h2>Saudi Vision 2030 vs China 2030</h2>
+        <p>
+          Designed for Thamer International School rubric: This website uses a train journey to compare two 2030 directions: China’s strategy toward 2030 and Saudi Vision 2030..
+          <br><br>
+          Use <span class="kbd">Auto Play</span>, <span class="kbd">Next Stop</span>, or press <span class="kbd">N</span>.
+        </p>
+      </div>
+
+      <!-- 1 -->
+      <article class="card station-card" data-title="Goals & Vision">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> Goals & Vision</span>
+            </div>
+            <h3>What each country wants by 2030</h3>
+            <ul class="bullets">
+              <li><b>Saudi Vision 2030:</b> diversify beyond oil, build new sectors, improve quality of life.</li>
+              <li><b>China 2030 direction:</b> strengthen competitiveness, sustain growth, and increase resilience.</li>
+              <li><b>Shared idea:</b> modernization + better outcomes for citizens.</li>
+            </ul>
+          </div>
+
+          <div class="visual">
+            <!-- Matching illustration (no external image required) -->
+            <svg viewBox="0 0 520 280">
+              <defs>
+                <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="rgba(17,70,129,.95)"/>
+                  <stop offset="1" stop-color="rgba(237,172,35,.85)"/>
+                </linearGradient>
+              </defs>
+              <path d="M70 210 C150 120, 220 120, 300 185 S430 260, 470 150" fill="none" stroke="url(#gA)" stroke-width="12" stroke-linecap="round"/>
+              <circle cx="150" cy="150" r="10" fill="rgba(255,255,255,.9)"/>
+              <circle cx="300" cy="185" r="10" fill="rgba(255,255,255,.9)"/>
+              <circle cx="445" cy="240" r="10" fill="rgba(255,255,255,.9)"/>
+              <text x="20" y="48" fill="rgba(234,240,255,.88)" font-size="16">Vision & Goals</text>
+              <text x="20" y="70" fill="rgba(234,240,255,.65)" font-size="12">Where they want to reach</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="card station-card" data-title="Similarities">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> Similarities</span>
+            </div>
+            <h3>Common transformation themes</h3>
+            <ul class="bullets">
+              <li>Strong focus on national transformation (economy, jobs, services).</li>
+              <li>Infrastructure and modernization as key enablers.</li>
+              <li>Improving global position and competitiveness.</li>
+            </ul>
+          </div>
+
+          <div class="visual">
+            <svg viewBox="0 0 520 280">
+              <defs>
+                <linearGradient id="gB" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="rgba(44,96,66,.85)"/>
+                  <stop offset="1" stop-color="rgba(17,70,129,.95)"/>
+                </linearGradient>
+              </defs>
+              <circle cx="260" cy="140" r="92" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)"/>
+              <path d="M180 140 C210 105, 310 105, 340 140 C310 175, 210 175, 180 140Z" fill="none" stroke="url(#gB)" stroke-width="8"/>
+              <text x="20" y="48" fill="rgba(234,240,255,.88)" font-size="16">Similarities</text>
+              <text x="20" y="70" fill="rgba(234,240,255,.65)" font-size="12">Shared priorities</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="card station-card" data-title="Differences">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> Differences</span>
+            </div>
+            <h3>Different strategy styles</h3>
+            <ul class="bullets">
+              <li><b>China:</b> emphasizes internal capacity, self-reliance, and long-term competitiveness.</li>
+              <li><b>Saudi:</b> emphasizes diversification speed, global partnerships, and investment attraction.</li>
+              <li><b>Trade-off:</b> autonomy vs speed-to-market.</li>
+            </ul>
+          </div>
+
+          <div class="visual">
+            <svg viewBox="0 0 520 280">
+              <defs>
+                <linearGradient id="gC" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="rgba(17,70,129,.9)"/>
+                  <stop offset="1" stop-color="rgba(237,172,35,.85)"/>
+                </linearGradient>
+              </defs>
+              <rect x="88" y="110" width="156" height="124" rx="26" fill="rgba(255,255,255,.10)" stroke="rgba(255,255,255,.18)"/>
+              <rect x="276" y="70" width="156" height="164" rx="26" fill="rgba(255,255,255,.10)" stroke="url(#gC)" stroke-width="4"/>
+              <path d="M166 102 L166 64" stroke="rgba(255,255,255,.18)" stroke-width="6" stroke-linecap="round"/>
+              <path d="M354 60 L354 32" stroke="rgba(255,255,255,.18)" stroke-width="6" stroke-linecap="round"/>
+              <text x="20" y="48" fill="rgba(234,240,255,.88)" font-size="16">Differences</text>
+              <text x="20" y="70" fill="rgba(234,240,255,.65)" font-size="12">Two routes, one destination</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="card station-card" data-title="Benefits">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> Benefits</span>
+            </div>
+            <h3>Expected benefits for citizens</h3>
+            <ul class="bullets">
+              <li>More jobs and stronger private sector opportunities.</li>
+              <li>Better services (digital, transport, health, education).</li>
+              <li>Improved infrastructure and productivity.</li>
+            </ul>
+          </div>
+
+          <div class="visual">
+            <svg viewBox="0 0 520 280">
+              <defs>
+                <linearGradient id="gD" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="rgba(237,172,35,.9)"/>
+                  <stop offset="1" stop-color="rgba(44,96,66,.85)"/>
+                </linearGradient>
+              </defs>
+              <line x1="90" y1="220" x2="430" y2="220" stroke="rgba(255,255,255,.18)" stroke-width="4"/>
+              <line x1="90" y1="220" x2="90" y2="80" stroke="rgba(255,255,255,.18)" stroke-width="4"/>
+              <path d="M90 210 L160 180 L240 190 L310 140 L430 105" fill="none" stroke="url(#gD)" stroke-width="10" stroke-linecap="round"/>
+              <text x="20" y="48" fill="rgba(234,240,255,.88)" font-size="16">Benefits</text>
+              <text x="20" y="70" fill="rgba(234,240,255,.65)" font-size="12">What improves for people</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 -->
+      <article class="card station-card" data-title="Challenges">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> Challenges</span>
+            </div>
+            <h3>Main challenges</h3>
+            <ul class="bullets">
+              <li>Talent gap + skills development needs.</li>
+              <li>High cost and complexity of mega programs.</li>
+              <li>Global uncertainty and economic risks.</li>
+            </ul>
+          </div>
+
+          <div class="visual">
+            <svg viewBox="0 0 520 280">
+              <defs>
+                <linearGradient id="gE" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="rgba(17,70,129,.9)"/>
+                  <stop offset="1" stop-color="rgba(237,172,35,.85)"/>
+                </linearGradient>
+              </defs>
+              <path d="M120 210 C150 120, 220 120, 250 200 S330 260, 400 150 S470 110, 470 110"
+                    fill="none" stroke="url(#gE)" stroke-width="10" stroke-linecap="round"/>
+              <circle cx="120" cy="210" r="8" fill="rgba(255,255,255,.85)"/>
+              <circle cx="470" cy="110" r="8" fill="rgba(255,255,255,.85)"/>
+              <text x="20" y="48" fill="rgba(234,240,255,.88)" font-size="16">Challenges</text>
+              <text x="20" y="70" fill="rgba(234,240,255,.65)" font-size="12">Difficult parts of the journey</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===== Added BRI content (3 cards) ===== -->
+
+      <!-- 6 -->
+      <article class="card station-card" data-title="China: Belt & Road Initiative (BRI)">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> What is BRI?</span>
+            </div>
+            <h3>China’s global connectivity initiative (Silk Road concept)</h3>
+            <ul class="bullets">
+              <li><b>Definition:</b> A Chinese-led infrastructure and connectivity initiative launched in 2013.</li>
+              <li><b>Purpose:</b> Improve trade, communication, and connectivity across regions.</li>
+              <li><b>Concept:</b> Inspired by the ancient Silk Road (land + sea routes).</li>
+            </ul>
+          </div>
+
+          <div class="visual">
+            <!-- Custom matching illustration -->
+            <svg viewBox="0 0 520 280">
+              <defs>
+                <linearGradient id="bri1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="rgba(17,70,129,.95)"/>
+                  <stop offset="1" stop-color="rgba(44,96,66,.85)"/>
+                </linearGradient>
+                <linearGradient id="bri2" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="rgba(237,172,35,.85)"/>
+                  <stop offset="1" stop-color="rgba(17,70,129,.75)"/>
+                </linearGradient>
+              </defs>
+
+              <circle cx="150" cy="140" r="64" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)"/>
+              <circle cx="380" cy="140" r="64" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)"/>
+              <path d="M210 140 C250 90, 280 90, 320 140 C280 190, 250 190, 210 140Z"
+                    fill="none" stroke="url(#bri1)" stroke-width="10" stroke-linecap="round"/>
+              <path d="M210 140 C260 160, 290 160, 320 140"
+                    fill="none" stroke="url(#bri2)" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+
+              <text x="20" y="48" fill="rgba(234,240,255,.88)" font-size="16">BRI = Connectivity</text>
+              <text x="20" y="70" fill="rgba(234,240,255,.65)" font-size="12">Trade routes • Networks • Infrastructure</text>
+
+              <text x="120" y="144" fill="rgba(234,240,255,.85)" font-size="12">Regions</text>
+              <text x="347" y="144" fill="rgba(234,240,255,.85)" font-size="12">China</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- 7 -->
+      <article class="card station-card" data-title="BRI: Types of Projects">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> What projects are included?</span>
+            </div>
+            <h3>Infrastructure categories supported by BRI</h3>
+            <ul class="bullets">
+              <li>Airports & ports</li>
+              <li>Power plants & energy infrastructure</li>
+              <li>Bridges, railways, roads, highways</li>
+              <li>Telecommunications & connectivity networks</li>
+            </ul>
+            <ul class="bullets">
+              <li><b>Why it matters:</b> stronger logistics, faster trade, and connected regions.</li>
+            </ul>
+          </div>
+
+          <div class="visual">
+            <!-- Custom matching icons illustration -->
+            <svg viewBox="0 0 520 280">
+              <defs>
+                <linearGradient id="ic" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="rgba(237,172,35,.9)"/>
+                  <stop offset="1" stop-color="rgba(17,70,129,.9)"/>
+                </linearGradient>
+              </defs>
+
+              <!-- grid -->
+              <rect x="55" y="70" width="140" height="140" rx="22" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+              <rect x="205" y="70" width="140" height="140" rx="22" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+              <rect x="355" y="70" width="110" height="140" rx="22" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.16)"/>
+
+              <!-- airport -->
+              <path d="M125 115 L125 165 M95 140 L155 140" stroke="url(#ic)" stroke-width="8" stroke-linecap="round"/>
+              <path d="M110 125 L140 155" stroke="rgba(255,255,255,.22)" stroke-width="6" stroke-linecap="round"/>
+              <text x="92" y="198" fill="rgba(234,240,255,.8)" font-size="12">Airports / Ports</text>
+
+              <!-- power -->
+              <path d="M275 105 L245 150 L270 150 L250 190 L305 135 L280 135 Z" fill="url(#ic)" opacity=".95"/>
+              <text x="232" y="198" fill="rgba(234,240,255,.8)" font-size="12">Power / Energy</text>
+
+              <!-- roads/rail/telecom -->
+              <path d="M385 180 C395 150, 410 150, 420 180" fill="none" stroke="url(#ic)" stroke-width="8" stroke-linecap="round"/>
+              <path d="M385 120 L435 120" stroke="rgba(255,255,255,.22)" stroke-width="6" stroke-linecap="round"/>
+              <path d="M410 90 L410 150" stroke="rgba(255,255,255,.22)" stroke-width="6" stroke-linecap="round"/>
+              <text x="372" y="198" fill="rgba(234,240,255,.8)" font-size="12">Rail / Roads / Telecom</text>
+
+              <text x="20" y="48" fill="rgba(234,240,255,.88)" font-size="16">BRI Infrastructure Types</text>
+              <text x="20" y="70" fill="rgba(234,240,255,.65)" font-size="12">Transport • Energy • Connectivity</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8 -->
+      <article class="card station-card" data-title="BRI: Funding, Impact & Criticism">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> Funding & impact</span>
+            </div>
+            <h3>How it’s funded + how it can help (and concerns)</h3>
+            <ul class="bullets">
+              <li><b>Funding:</b> largely through major Chinese state-backed banks + investment funds.</li>
+              <li><b>Positive impact:</b> trade growth, connectivity, and jobs in host countries.</li>
+              <li><b>Concerns:</b> debt burden, financing pressure, and environmental/social impacts.</li>
+            </ul>
+
+            <!-- Optional: if you want to use your screenshots instead, just place images in folder and uncomment below -->
+            <!--
+            <div style="margin-top:12px;">
+              <img src="bri_help.jpg" alt="How BRI helps economies" style="width:100%;border-radius:18px;border:1px solid rgba(255,255,255,.14);">
+            </div>
+            -->
+          </div>
+
+          <div class="visual">
+            <!-- Donut chart (stylized to match site palette) -->
+            <svg viewBox="0 0 520 280" aria-label="BRI Funding by Source (stylized)">
+              <defs>
+                <filter id="ds" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="rgba(0,0,0,.35)"/>
+                </filter>
+              </defs>
+
+              <!-- donut base -->
+              <g transform="translate(260,140)" filter="url(#ds)">
+                <!-- ring background -->
+                <circle r="86" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="44"/>
+
+                <!-- segments (approx proportions) -->
+                <!-- 52% -->
+                <circle r="86" fill="none" stroke="rgba(237,172,35,.75)" stroke-width="44"
+                        stroke-dasharray="270 520" stroke-linecap="butt"
+                        transform="rotate(-90)"/>
+                <!-- 26% -->
+                <circle r="86" fill="none" stroke="rgba(17,70,129,.85)" stroke-width="44"
+                        stroke-dasharray="135 520" stroke-linecap="butt"
+                        transform="rotate(97)"/>
+                <!-- 21% -->
+                <circle r="86" fill="none" stroke="rgba(44,96,66,.75)" stroke-width="44"
+                        stroke-dasharray="110 520" stroke-linecap="butt"
+                        transform="rotate(190)"/>
+                <!-- tiny slivers (1%, <1%, <1%) -->
+                <circle r="86" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="44"
+                        stroke-dasharray="6 520" stroke-linecap="butt"
+                        transform="rotate(265)"/>
+                <circle r="86" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="44"
+                        stroke-dasharray="4 520" stroke-linecap="butt"
+                        transform="rotate(272)"/>
+                <circle r="86" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="44"
+                        stroke-dasharray="4 520" stroke-linecap="butt"
+                        transform="rotate(277)"/>
+
+                <!-- hole -->
+                <circle r="52" fill="rgba(5,8,23,.75)" stroke="rgba(255,255,255,.12)"/>
+                <text text-anchor="middle" y="-4" fill="rgba(234,240,255,.9)" font-size="14" font-weight="700">BRI Funding</text>
+                <text text-anchor="middle" y="16" fill="rgba(234,240,255,.65)" font-size="11">by source (stylized)</text>
+              </g>
+
+              <!-- legend -->
+              <g font-size="11" fill="rgba(234,240,255,.78)">
+                <rect x="32" y="54" width="12" height="12" fill="rgba(237,172,35,.75)"/>
+                <text x="52" y="64">State-backed commercial banks (largest share)</text>
+
+                <rect x="32" y="78" width="12" height="12" fill="rgba(17,70,129,.85)"/>
+                <text x="52" y="88">China Development Bank</text>
+
+                <rect x="32" y="102" width="12" height="12" fill="rgba(44,96,66,.75)"/>
+                <text x="52" y="112">Export-Import Bank of China</text>
+
+                <rect x="32" y="126" width="12" height="12" fill="rgba(255,255,255,.45)"/>
+                <text x="52" y="136">Silk Road Fund + other small sources</text>
+              </g>
+
+              <text x="20" y="250" fill="rgba(234,240,255,.60)" font-size="11">
+                Note: Visual is stylized to match website; you can replace with your screenshot image if required.
+              </text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- 9 -->
+      <article class="card station-card" data-title="Conclusion">
+        <div class="inner">
+          <div>
+            <div class="mini">
+              <span class="tag"><span class="tiny-dot"></span><b>Stop</b> Conclusion</span>
+            </div>
+            <h3>Final comparative summary</h3>
+            <ul class="bullets">
+              <li><b>China:</b> long-term strength through internal capability and resilience.</li>
+              <li><b>Saudi:</b> fast transformation through diversification and global partnerships.</li>
+              <li><b>BRI:</b> shows how China builds global connectivity via infrastructure financing.</li>
+              <li><b>Overall:</b> both aim to raise living standards and boost competitiveness by 2030.</li>
+            </ul>
+          </div>
+
+          <div class="visual">
+            <svg viewBox="0 0 520 280">
+              <defs>
+                <linearGradient id="gF" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="rgba(237,172,35,.9)"/>
+                  <stop offset="1" stop-color="rgba(17,70,129,.9)"/>
+                </linearGradient>
+              </defs>
+              <rect x="120" y="90" width="12" height="150" rx="6" fill="rgba(255,255,255,.18)"/>
+              <path d="M132 92 L330 120 L132 152 Z" fill="url(#gF)" opacity=".95"/>
+              <path d="M90 220 C160 210, 240 230, 320 215 S430 200, 460 210"
+                    fill="none" stroke="rgba(255,255,255,.18)" stroke-width="8" stroke-linecap="round"/>
+              <text x="20" y="48" fill="rgba(234,240,255,.88)" font-size="16">Finish</text>
+              <text x="20" y="70" fill="rgba(234,240,255,.65)" font-size="12">Clear academic conclusion</text>
+            </svg>
+          </div>
+        </div>
+      </article>
+
+      <footer>
+        Controls: <span class="kbd">Auto Play</span>, <span class="kbd">Next Stop</span>, or press <span class="kbd">N</span>.
+      </footer>
+    </main>
+  </section>
+
+  <script>
+    const cards = Array.from(document.querySelectorAll(".station-card"));
+    const railStage = document.getElementById("railStage");
+
+    const trainWrap = document.getElementById("trainWrap");
+    const train = document.getElementById("train");
+
+    const autoBtn = document.getElementById("autoBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const stateText = document.getElementById("stateText");
+
+    // Build station positions dynamically based on number of cards (no manual editing)
+    // Spread from 10% to 90% evenly.
+    function buildPercents(n){
+      const start = 10, end = 90;
+      if(n <= 1) return [50];
+      const step = (end - start) / (n - 1);
+      return Array.from({length:n}, (_, i) => +(start + step*i).toFixed(2));
+    }
+
+    const stationPercents = buildPercents(cards.length);
+
+    // Create stations + labels
+    const stationNodes = stationPercents.map((pct, i) => {
+      const dot = document.createElement("div");
+      dot.className = "rail-station";
+      dot.style.top = pct + "%";
+
+      const label = document.createElement("div");
+      label.className = "rail-label";
+      label.style.top = pct + "%";
+      label.innerHTML = `<strong>Stop ${i+1}</strong> — ${cards[i]?.dataset.title || "Point"}`;
+
+      dot.addEventListener("click", () => scrollToCard(i));
+      label.addEventListener("click", () => scrollToCard(i));
+
+      railStage.appendChild(dot);
+      railStage.appendChild(label);
+
+      return { dot, label };
+    });
+
+    let currentIndex = 0;
+    let isAuto = false;
+    let timer = null;
+
+    function animateMove(){
+      train.classList.add("moving");
+      clearTimeout(animateMove._t);
+      animateMove._t = setTimeout(() => train.classList.remove("moving"), 900);
+    }
+
+    function setActive(index){
+      stationNodes.forEach((s, i) => s.dot.classList.toggle("active", i === index));
+      cards.forEach((c, i) => c.classList.toggle("active", i === index));
+
+      const topPercent = stationPercents[index] ?? 10;
+      trainWrap.style.top = topPercent + "%";
+
+      animateMove();
+      currentIndex = index;
+    }
+
+    function scrollToCard(index){
+      cards[index]?.scrollIntoView({ behavior:"smooth", block:"center" });
+      setActive(index);
+    }
+
+    // Follow scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          const idx = cards.indexOf(e.target);
+          if(idx >= 0 && !isAuto){
+            stateText.textContent = "Scroll to move the train";
+            setActive(idx);
+          }
+        }
+      });
+    }, { threshold: 0.55 });
+
+    cards.forEach(c => io.observe(c));
+
+    function startAuto(){
+      isAuto = true;
+      stateText.textContent = "Auto Play running";
+      autoBtn.textContent = "Stop Auto";
+      setActive(currentIndex);
+
+      timer = setInterval(() => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        scrollToCard(currentIndex);
+      }, 2600);
+    }
+
+    function stopAuto(){
+      isAuto = false;
+      stateText.textContent = "Scroll to move the train";
+      autoBtn.textContent = "Auto Play";
+      clearInterval(timer);
+      timer = null;
+    }
+
+    autoBtn.addEventListener("click", () => isAuto ? stopAuto() : startAuto());
+
+    nextBtn.addEventListener("click", () => {
+      if(isAuto) stopAuto();
+      const next = (currentIndex + 1) % cards.length;
+      scrollToCard(next);
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if(e.key.toLowerCase() === "n") nextBtn.click();
+    });
+
+    // init
+    setActive(0);
+  </script>
+</body>
+</html>
